@@ -101,4 +101,5 @@ void most_left_longest_branch(Bst bst, Bst* branch);
 *** @return The number of non-empty subtrees
 */
 int get_number_of_subtrees(Bst bst);
+void insert(int value, Bst bst, Bst new_node);
 #endif

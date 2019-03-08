@@ -33,16 +33,38 @@ void delete_bst(Bst bst){
 
 int get_depth(Bst bst){
   if (bst==0)return 0;
-  else{
-    return 1;
-  }
+  if (bst->right==0&&bst->right==0)return 1;
+  return 2;
 }
 
 void add(Bst* bst, int value){
   Bst new_node=(Bst)malloc(sizeof(struct Node));
   new_node->value=value;
   new_node->left=0;
-  *bst=new_node;
+  if (bst==0) {
+    (*bst)=new_node;
+  }
+  else{
+    insert(value,bst,new_node);
+  }
+}
+
+void insert(int value, Bst bst, Bst new_node){
+  if (value<=bst->value) {
+    if (bst->left==0) {
+      bst->left=new_node;
+      else{
+        insert(value,bst->left,*new_node);
+      }
+    }
+  }
+  else{
+    if (bst->right==0) {
+      bst->right=new_node;
+      else{
+        insert(value,bst->right,*new_node);
+      }
+    }
 }
 
 int root_value(Bst bst){
