@@ -28,7 +28,11 @@ Bst new_bst()
 }
 
 void delete_bst(Bst bst){
-  if(bst!=0)sfree(bst);
+  if (bst!=0) {
+    delete_bst(bst->right);
+    delete_bst(bst->left);
+    sfree(bst);
+  }
 }
 
 int get_depth(Bst bst){
@@ -41,42 +45,43 @@ void add(Bst* bst, int value){
   Bst new_node=(Bst)malloc(sizeof(struct Node));
   new_node->value=value;
   new_node->left=0;
-  if (bst==0) {
+  new_node->right=0;
+
+  if (*bst==0) {
     (*bst)=new_node;
   }
-  else{
-    insert(value,bst,new_node);
+
+  else if (value<=(*bst)->value) {
+    if ((*bst)->left==0) {
+      (*bst)->left=new_node;
+      }
+      else{
+        add(&(*bst)->left,value);
+      }
   }
+  else if(value>(*bst)->value){
+    if ((*bst)->right==0) {
+      (*bst)->right=new_node;
+      }
+      else{
+        add(&(*bst)->right,value);
+      }
+    }
 }
 
-void insert(int value, Bst bst, Bst new_node){
-  if (value<=bst->value) {
-    if (bst->left==0) {
-      bst->left=new_node;
-      else{
-        insert(value,bst->left,*new_node);
-      }
-    }
-  }
-  else{
-    if (bst->right==0) {
-      bst->right=new_node;
-      else{
-        insert(value,bst->right,*new_node);
-      }
-    }
-}
+
 
 int root_value(Bst bst){
-if(bst!=0) return bst->value;
+  if(bst!=0) return bst->value;
+  return 0;
 }
 
 Bst left_subtree(Bst root){
-  return 0;
+  return root->left;
 }
 
 Bst right_subtree(Bst root){
-  return 0;
+  return root->right;
 }
 
 int traverse_pre_order(Bst bst, int *elements, int start){
